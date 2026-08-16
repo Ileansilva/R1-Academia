@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>R1 Academia | Matrícula Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="#inicio"><span class="brand-mark">R1</span><span><b>R1</b> ACADEMIA</span></a>
+      <nav>
+        <a href="#inicio">Início</a>
+        <a href="#matricula">Matrícula</a>
+        <a href="#planos">Planos</a>
+        <a href="#contato">Contato</a>
+      </nav>
+      <a class="btn btn-outline" href="admin.html">Área do proprietário</a>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">DISCIPLINA • FOCO • RESULTADOS</span>
+          <h1>COMECE SUA <span>EVOLUÇÃO</span> HOJE.</h1>
+          <p>Cadastre-se, escolha seu plano e acompanhe sua jornada na R1 Academia.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#matricula">Quero me cadastrar</a>
+            <a class="btn btn-dark" href="#planos">Ver planos</a>
+          </div>
+        </div>
+        <div class="hero-art">
+          <img src="assets/r1-brand.png" alt="R1 Academia" onerror="this.style.display='none'">
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="matricula">
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">MATRÍCULA ONLINE</span><h2>Cadastro do aluno</h2></div>
+          <p>Seu próximo vencimento é calculado automaticamente conforme a duração do plano.</p>
+        </div>
+
+        <div class="card">
+          <form id="signupForm">
+            <div class="form-grid">
+              <div class="field span-2"><label>Nome completo</label><input id="name" required></div>
+              <div class="field"><label>WhatsApp</label><input id="phone" required placeholder="5582999999999"></div>
+              <div class="field"><label>Data de nascimento</label><input id="birth_date" type="date"></div>
+              <div class="field"><label>Plano</label><select id="plan_id" required></select></div>
+              <div class="field"><label>Data de início</label><input id="start_date" type="date" required></div>
+              <div class="field span-2"><label>Objetivo</label>
+                <select id="goal">
+                  <option>Hipertrofia</option><option>Emagrecimento</option>
+                  <option>Definição muscular</option><option>Condicionamento físico</option>
+                  <option>Saúde e bem-estar</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="due-preview">
+              <span>Próximo vencimento estimado</span>
+              <b id="duePreview">—</b>
+            </div>
+
+            <label class="check"><input type="checkbox" id="consent" required> Autorizo a academia a entrar em contato pelo WhatsApp sobre matrícula, vencimento e renovação.</label>
+            <button class="btn btn-primary full" type="submit">Enviar matrícula</button>
+            <div class="message" id="signupMessage"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark" id="planos">
+      <div class="container">
+        <div class="section-head"><div><span class="eyebrow">PLANOS</span><h2>Escolha o seu</h2></div></div>
+        <div class="plans" id="plansGrid"></div>
+      </div>
+    </section>
+
+    <section class="section cta" id="contato">
+      <div class="container cta-wrap">
+        <div><span class="eyebrow">R1 ACADEMIA</span><h2>Seu próximo resultado começa agora.</h2></div>
+        <button class="btn btn-primary" id="whatsappBtn">Falar no WhatsApp</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
