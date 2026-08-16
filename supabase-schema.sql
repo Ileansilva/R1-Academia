@@ -1,6 +1,4 @@
--- R1 Academia - schema Supabase
--- Execute no SQL Editor do Supabase.
-
+-- R1 Academia - schema Supabase atualizado
 create extension if not exists pgcrypto;
 
 create table if not exists public.plans (
@@ -23,6 +21,7 @@ create table if not exists public.students (
   start_date date not null,
   due_date date not null,
   status text not null default 'pending' check (status in ('pending','active','inactive')),
+  payment_method_preference text,
   created_at timestamptz not null default now()
 );
 
@@ -42,6 +41,7 @@ create table if not exists public.renewals (
   plan_id uuid not null references public.plans(id),
   old_due_date date not null,
   new_due_date date not null,
+  payment_method text,
   renewed_at date not null default current_date
 );
 
@@ -52,7 +52,9 @@ create table if not exists public.settings (
   created_at timestamptz not null default now()
 );
 
--- Plano iniciais
+alter table public.students add column if not exists payment_method_preference text;
+alter table public.renewals add column if not exists payment_method text;
+
 insert into public.plans (name, months, price, benefits)
 select 'Mensal',1,129.90,array['Acesso completo','Avaliação física','Acompanhamento da equipe']
 where not exists(select 1 from public.plans where months=1);
@@ -69,24 +71,19 @@ insert into public.plans (name, months, price, benefits)
 select 'Anual',12,999.90,array['12 meses de acesso','Acompanhamento periódico','Maior economia']
 where not exists(select 1 from public.plans where months=12);
 
--- RLS
 alter table public.plans enable row level security;
 alter table public.students enable row level security;
 alter table public.payments enable row level security;
 alter table public.renewals enable row level security;
 alter table public.settings enable row level security;
 
--- Público pode ler apenas planos ativos.
 drop policy if exists "public read active plans" on public.plans;
-create policy "public read active plans" on public.plans for select
-using (active = true);
+create policy "public read active plans" on public.plans for select using (active = true);
 
--- Público pode enviar uma matrícula, mas não ler alunos.
 drop policy if exists "public create student signup" on public.students;
 create policy "public create student signup" on public.students for insert
 with check (status = 'pending');
 
--- Usuários autenticados (proprietário) têm acesso completo.
 drop policy if exists "authenticated manage plans" on public.plans;
 create policy "authenticated manage plans" on public.plans for all to authenticated using (true) with check (true);
 
@@ -102,7 +99,7 @@ create policy "authenticated manage renewals" on public.renewals for all to auth
 drop policy if exists "authenticated manage settings" on public.settings;
 create policy "authenticated manage settings" on public.settings for all to authenticated using (true) with check (true);
 
--- Público pode ler somente o WhatsApp geral da academia.
 drop policy if exists "public read settings" on public.settings;
-create policy "public read settings" on public.settings for select
-using (true);
+create policy "public read settings" on public.settings for select using (true);
+
+alter table public.students add column if not exists initial_confirmed_at timestamptz;
