@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>R1 Academia | Matrícula Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="#inicio">
+        <img src="assets/r1-logo.png" alt="R1 Academia" class="brand-logo" onerror="this.style.display='none'">
+        <span class="brand-mark">R1</span>
+        <span><b>R1</b> ACADEMIA</span>
+      </a>
+      <nav>
+        <a href="#inicio">Início</a>
+        <a href="#matricula">Matrícula</a>
+        <a href="#planos">Planos</a>
+        <a href="#contato">Contato</a>
+      </nav>
+      <a class="btn btn-outline" href="admin.html">Área do proprietário</a>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">DISCIPLINA • FOCO • RESULTADOS</span>
+          <h1>COMECE SUA <span>EVOLUÇÃO</span> HOJE.</h1>
+          <p>Uma experiência moderna para a R1 Academia, com cadastro online, planos organizados, visual maromba e tecnologia para acompanhar vencimentos e matrículas.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#matricula">Quero me cadastrar</a>
+            <a class="btn btn-dark" href="#planos">Ver planos</a>
+          </div>
+          <div class="hero-highlights">
+            <div><b>Força</b><span>Treino de verdade</span></div>
+            <div><b>Foco</b><span>Disciplina diária</span></div>
+            <div><b>Resultados</b><span>Evolução constante</span></div>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-card-image"></div>
+          <div class="hero-card-overlay">
+            <div class="mini-badge">R1 ACADEMIA</div>
+            <h3>Treine em alto nível</h3>
+            <p>Ambiente premium, identidade forte e acompanhamento profissional.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section registration-section" id="matricula">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">MATRÍCULA ONLINE</span>
+            <h2>Cadastro do aluno</h2>
+          </div>
+          <p>Agora com fundo mais forte e tecnológico, pensado para combinar com a identidade maromba da academia.</p>
+        </div>
+
+        <div class="registration-shell">
+          <div class="registration-backdrop"></div>
+
+          <div class="signup-content">
+            <div class="card signup-form-card">
+              <div class="form-header">
+                <div>
+                  <span class="eyebrow">FAÇA SUA MATRÍCULA</span>
+                  <h3>Preencha seus dados</h3>
+                </div>
+                <img src="assets/r1-logo.png" alt="Logo R1 Academia" class="form-logo" onerror="this.style.display='none'">
+              </div>
+
+              <form id="signupForm">
+                <div class="form-grid">
+                  <div class="field span-2"><label>Nome completo</label><input id="name" required></div>
+                  <div class="field"><label>WhatsApp</label><input id="phone" required placeholder="5582999999999"></div>
+                  <div class="field"><label>Data de nascimento</label><input id="birth_date" type="date"></div>
+                  <div class="field"><label>Plano</label><select id="plan_id" required></select></div>
+                  <div class="field"><label>Data de início</label><input id="start_date" type="date" required></div>
+                  <div class="field span-2"><label>Objetivo</label>
+                    <select id="goal">
+                      <option>Hipertrofia</option>
+                      <option>Emagrecimento</option>
+                      <option>Definição muscular</option>
+                      <option>Condicionamento físico</option>
+                      <option>Saúde e bem-estar</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="due-preview">
+                  <span>Próximo vencimento estimado</span>
+                  <b id="duePreview">—</b>
+                  <small>O sistema calcula automaticamente com base no plano escolhido.</small>
+                </div>
+
+                <label class="check">
+                  <input type="checkbox" id="consent" required>
+                  Autorizo a academia a entrar em contato pelo WhatsApp sobre matrícula, vencimento e renovação.
+                </label>
+
+                <button class="btn btn-primary full" type="submit">Enviar matrícula</button>
+                <div class="message" id="signupMessage"></div>
+              </form>
+            </div>
+
+            <aside class="signup-side">
+              <div class="side-panel top">
+                <span class="eyebrow">EXPERIÊNCIA R1</span>
+                <h3>Tecnologia + academia</h3>
+                <p>Visual forte, atendimento rápido e processo organizado para aluno e proprietário.</p>
+              </div>
+
+              <div class="side-panel image-panel">
+                <div class="side-gym-image"></div>
+              </div>
+
+              <div class="side-panel benefits-panel">
+                <div class="benefit-item">
+                  <b>01</b>
+                  <div><strong>Matrícula rápida</strong><span>Cadastro online direto no sistema.</span></div>
+                </div>
+                <div class="benefit-item">
+                  <b>02</b>
+                  <div><strong>Controle de vencimento</strong><span>Mensal, trimestral, semestral e anual.</span></div>
+                </div>
+                <div class="benefit-item">
+                  <b>03</b>
+                  <div><strong>WhatsApp automático</strong><span>Mensagem pronta ao clicar no cliente perto do vencimento.</span></div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark" id="planos">
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">PLANOS</span><h2>Escolha o seu</h2></div>
+          <p>Planos configuráveis no painel do proprietário.</p>
+        </div>
+        <div class="plans" id="plansGrid"></div>
+      </div>
+    </section>
+
+    <section class="section cta" id="contato">
+      <div class="container cta-wrap">
+        <div>
+          <span class="eyebrow">R1 ACADEMIA</span>
+          <h2>Seu próximo resultado começa agora.</h2>
+          <p>Fale com a equipe e tire suas dúvidas.</p>
+        </div>
+        <button class="btn btn-primary" id="whatsappBtn">Falar no WhatsApp</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
