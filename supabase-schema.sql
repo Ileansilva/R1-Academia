@@ -103,3 +103,11 @@ drop policy if exists "public read settings" on public.settings;
 create policy "public read settings" on public.settings for select using (true);
 
 alter table public.students add column if not exists initial_confirmed_at timestamptz;
+
+alter table public.students add column if not exists suspended_at timestamptz;
+alter table public.students add column if not exists reactivated_at timestamptz;
+alter table public.renewals add column if not exists action_type text not null default 'renewal';
+
+create index if not exists idx_students_status on public.students(status);
+create index if not exists idx_students_name_lower on public.students((lower(name)));
+create index if not exists idx_students_phone on public.students(phone);
