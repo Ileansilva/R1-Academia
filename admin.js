@@ -30,16 +30,52 @@ function buildReminder(student){
   if(d<0) return `Olá, ${student.name}! Tudo bem? Seu plano da R1 Academia venceu em ${fmtDate(student.due_date)}. Entre em contato conosco para renovar e continuar seus treinos. 💪`;
   return `Olá, ${student.name}! Tudo bem? Passando para avisar que faltam ${d} dia(s) para o vencimento do seu plano na R1 Academia, com vencimento em ${fmtDate(student.due_date)}. Se desejar, já podemos organizar sua renovação. 💪`;
 }
-function setLoginMessage(t){$("loginMessage").textContent=t;}
+function setLoginMessage(t, type="error") {
+  const el=$("loginMessage");
+  el.textContent=t||"";
+  el.className=`message ${type}`;
+}
+function loginErrorMessage(error){
+  const msg=String(error?.message||"");
+  const code=String(error?.code||"");
+  if(/invalid login credentials/i.test(msg)) return "E-mail ou senha incorretos. Confira se o usuário foi criado em Authentication → Users no projeto R1 Academia.";
+  if(/email not confirmed/i.test(msg)) return "Este e-mail ainda não foi confirmado. Confirme o usuário em Supabase → Authentication → Users ou desative a confirmação de e-mail para teste.";
+  if(/failed to fetch|network|fetch/i.test(msg)) return "Não foi possível conectar ao Supabase. Verifique sua internet e se o projeto R1 Academia está ativo.";
+  return `Erro do Supabase${code?` (${code})`:""}: ${msg||"não foi possível entrar."}`;
+}
 function activateTab(tabId){
   document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active", x.dataset.tab===tabId));
   document.querySelectorAll(".tab-content").forEach(x=>x.classList.toggle("hidden", x.id!==tabId));
 }
 
 $("loginBtn").onclick=async()=>{
-  const {error}=await sb.auth.signInWithPassword({email:$("email").value, password:$("password").value});
-  if(error)return setLoginMessage(error.message);
-  await showDashboard();
+  const btn=$("loginBtn");
+  const email=$("email").value.trim();
+  const password=$("password").value;
+  setLoginMessage("");
+  if(!email || !password) return setLoginMessage("Informe o e-mail e a senha.");
+  btn.disabled=true;
+  btn.textContent="Entrando...";
+  try {
+    const {data,error}=await sb.auth.signInWithPassword({email,password});
+    if(error) return setLoginMessage(loginErrorMessage(error));
+    if(!data?.session) return setLoginMessage("O Supabase não criou uma sessão. Verifique o usuário em Authentication → Users.");
+    setLoginMessage("Login realizado. Carregando painel...", "success");
+    await showDashboard();
+  } catch(error) {
+    setLoginMessage(loginErrorMessage(error));
+  } finally {
+    btn.disabled=false;
+    btn.textContent="Entrar no painel";
+  }
+};
+$("password").addEventListener("keydown", e=>{if(e.key==="Enter") $("loginBtn").click();});
+$("resetPasswordBtn").onclick=async()=>{
+  const email=$("email").value.trim();
+  if(!email) return setLoginMessage("Digite seu e-mail antes de solicitar a redefinição de senha.");
+  const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:new URL("admin.html",window.location.href).href});
+  if(error) return setLoginMessage(loginErrorMessage(error));
+  setLoginMessage("Se este e-mail estiver cadastrado, o Supabase enviará as instruções de redefinição de senha.", "success");
 };
 $("logoutBtn").onclick=async()=>{await sb.auth.signOut(); location.reload();};
 $("refreshBtn").onclick=loadAll;
